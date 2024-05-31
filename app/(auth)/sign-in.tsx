@@ -1,6 +1,6 @@
 import { Text, View } from "@/components/Themed";
 
-const SignIn = () => {
+const SignInScreen = () => {
   return (
     <View>
       <Text>Sign In</Text>
@@ -8,4 +8,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignInScreen;
