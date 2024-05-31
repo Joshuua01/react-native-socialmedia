@@ -44,7 +44,6 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
-  const authContext = useContext(AuthContext);
 
   const { user } = useAuth();
 
@@ -54,9 +53,9 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
         {user === null ? (
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        ) : (
           <Stack.Screen name="(auth)/sign-in" options={{ headerShown: false }} />
+        ) : (
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         )}
       </Stack>
     </ThemeProvider>
