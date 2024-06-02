@@ -1,16 +1,10 @@
 import { getUsers } from "@/actions";
+import { User } from "@/models";
 import React, { createContext, useState, useEffect, ReactNode, useContext } from "react";
-
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-}
 
 interface AuthContextType {
   user: User | null;
-  login: (username: string) => Promise<void>;
+  login: (username: string) => Promise<boolean | undefined>;
   logout: () => void;
 }
 
@@ -33,8 +27,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const user = users.find((u: User) => u.email === email);
       if (user) {
         setUser(user);
+        return true;
       } else {
-        throw new Error("User not found");
+        return false;
       }
     }
   };
