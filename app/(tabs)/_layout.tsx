@@ -31,28 +31,28 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Feed",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="rss" color={color} />,
         }}
       />
       <Tabs.Screen
         name="albums"
         options={{
           title: "Albums",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="image" color={color} />,
         }}
       />
       <Tabs.Screen
         name="todos"
         options={{
           title: "Todos",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="list-ol" color={color} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: "Profile",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
     </Tabs>

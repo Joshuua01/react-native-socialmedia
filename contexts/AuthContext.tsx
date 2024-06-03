@@ -1,9 +1,9 @@
 import { getUsers } from "@/actions";
-import { User } from "@/models";
+import { IUser } from "@/models";
 import React, { createContext, useState, useEffect, ReactNode, useContext } from "react";
 
 interface AuthContextType {
-  user: User | null;
+  user: IUser | null;
   login: (username: string) => Promise<boolean | undefined>;
   logout: () => void;
 }
@@ -19,12 +19,13 @@ export const useAuth = (): AuthContextType => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<IUser | null>(null);
 
   const login = async (email: string) => {
     const users = await getUsers();
     if (users.length > 0) {
-      const user = users.find((u: User) => u.email === email);
+      // const user = users.find((u: User) => u.email === email);
+      const user = users[0];
       if (user) {
         setUser(user);
         return true;
