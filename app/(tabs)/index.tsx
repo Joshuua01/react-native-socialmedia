@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 
 import { Text, View } from "@/components/Themed";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -23,10 +23,12 @@ export default function FeedScreen() {
   }, []);
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
-      {posts.map((post) => (
-        <Post key={post.id} post={post} />
-      ))}
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={{ paddingTop: 10 }}>
+        {posts.map((post) => (
+          <Post key={post.id} post={post} />
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -34,8 +36,6 @@ export default function FeedScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-start",
   },
   title: {
     fontSize: 20,
