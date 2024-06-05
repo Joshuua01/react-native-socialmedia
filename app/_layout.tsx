@@ -9,6 +9,7 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/components/useColorScheme";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import SignInScreen from "./(auth)/sign-in";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -51,6 +52,7 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="posts/[id]/index" options={{ headerShown: true, title: "Post", headerBackTitle: "Feed" }} />
       </Stack>
     </ThemeProvider>
   );

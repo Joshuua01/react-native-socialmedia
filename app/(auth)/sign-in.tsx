@@ -3,13 +3,13 @@ import { Text, View } from "@/components/Themed";
 import { MonoText } from "@/components/StyledText";
 import { useEffect, useState } from "react";
 import { getUsers } from "@/actions";
-import { User } from "@/models";
+import { IUser } from "@/models";
 import { useAuth } from "@/contexts/AuthContext";
 import { router } from "expo-router";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState<string>("");
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<IUser[]>([]);
   const { login } = useAuth();
 
   const handleInputChange = (text: string) => {

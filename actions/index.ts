@@ -14,6 +14,12 @@ export const getPosts = async () => {
   return data as IPost[];
 };
 
+export const getPostById = async (postId: number) => {
+  const response = await fetch(`${api_url}/posts/${postId}`);
+  const data = await response.json();
+  return data as IPost;
+};
+
 export const getCommentsByPostId = async (postId: number) => {
   const response = await fetch(`${api_url}/posts/${postId}/comments`);
   const data = await response.json();

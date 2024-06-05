@@ -1,17 +1,12 @@
 import { ScrollView, StyleSheet } from "react-native";
 
-import { Text, View } from "@/components/Themed";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useAuth } from "@/contexts/AuthContext";
+import { View } from "@/components/Themed";
 import { useEffect, useState } from "react";
 import { getPosts } from "@/actions";
 import { IPost } from "@/models";
 import { Post } from "@/components/Post";
 
 export default function FeedScreen() {
-  const insets = useSafeAreaInsets();
-  const { user } = useAuth();
-
   const [posts, setPosts] = useState<IPost[]>([]);
 
   useEffect(() => {
@@ -24,9 +19,9 @@ export default function FeedScreen() {
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={{ paddingTop: 10 }}>
+      <ScrollView>
         {posts.map((post) => (
-          <Post key={post.id} post={post} />
+          <Post key={post.id} post={post} pressable={true} renderComments={false} />
         ))}
       </ScrollView>
     </View>
@@ -40,10 +35,5 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
   },
 });
