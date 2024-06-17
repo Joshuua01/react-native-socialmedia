@@ -53,6 +53,10 @@ function RootLayoutNav() {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="posts/[id]/index" options={{ headerShown: true, title: "Post", headerBackTitle: "Feed" }} />
+        <Stack.Screen
+          name="albums/[id]/index"
+          options={{ headerShown: true, title: "Pictures", headerBackTitle: "Albums" }}
+        />
       </Stack>
     </ThemeProvider>
   );

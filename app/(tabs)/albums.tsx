@@ -1,10 +1,28 @@
-import { StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { Text, View } from "@/components/Themed";
+import { useEffect, useState } from "react";
+import { IAlbum } from "@/models";
+import { getAlbums } from "@/actions";
+import { Album } from "@/components/Album";
 
 export default function AlbumsScreen() {
+  const [albums, setAlbums] = useState<IAlbum[]>([]);
+
+  useEffect(() => {
+    const fetchAlbums = async () => {
+      const response = await getAlbums();
+      setAlbums(response);
+    };
+    fetchAlbums();
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Albums</Text>
+      <ScrollView>
+        {albums.map((album) => (
+          <Album key={album.id} album={album} pressable={true} renderPictures={false} />
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -12,16 +30,9 @@ export default function AlbumsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
   },
 });

@@ -1,4 +1,4 @@
-import { IPost, IUser, IComment } from "@/models";
+import { IPost, IUser, IComment, IAlbum, IPicture } from "@/models";
 
 const api_url = "https://jsonplaceholder.typicode.com";
 
@@ -24,4 +24,22 @@ export const getCommentsByPostId = async (postId: number) => {
   const response = await fetch(`${api_url}/posts/${postId}/comments`);
   const data = await response.json();
   return data as IComment[];
+};
+
+export const getAlbums = async () => {
+  const response = await fetch(`${api_url}/albums`);
+  const data = await response.json();
+  return data as IAlbum[];
+};
+
+export const getAlbumById = async (albumId: number) => {
+  const response = await fetch(`${api_url}/albums/${albumId}`);
+  const data = await response.json();
+  return data as IAlbum;
+};
+
+export const getPicturesByAlbumId = async (albumId: number) => {
+  const response = await fetch(`${api_url}/albums/${albumId}/photos`);
+  const data = await response.json();
+  return data as IPicture[];
 };
