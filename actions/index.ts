@@ -8,6 +8,12 @@ export const getUsers = async () => {
   return data as IUser[];
 };
 
+export const getUserById = async (userId: number) => {
+  const response = await fetch(`${api_url}/users/${userId}`);
+  const data = await response.json();
+  return data as IUser;
+};
+
 export const getPosts = async () => {
   const response = await fetch(`${api_url}/posts`);
   const data = await response.json();

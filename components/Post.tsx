@@ -1,9 +1,9 @@
 import { Pressable, StyleSheet } from "react-native";
-import { IComment, IPost } from "@/models";
+import { IComment, IPost, IUser } from "@/models";
 import { View } from "./Themed";
 import { MonoText } from "./StyledText";
 import { useEffect, useState } from "react";
-import { getCommentsByPostId } from "@/actions";
+import { getCommentsByPostId, getUserById } from "@/actions";
 import { router } from "expo-router";
 
 interface PostProps {
@@ -14,13 +14,19 @@ interface PostProps {
 
 export function Post({ post, pressable, renderComments }: PostProps) {
   const [comments, setComments] = useState<IComment[]>([]);
+  const [owner, setOwner] = useState<IUser>();
 
   useEffect(() => {
     const fetchComments = async () => {
       const response = await getCommentsByPostId(post.id);
       setComments(response);
     };
+    const fetchOwner = async () => {
+      const response = await getUserById(post.userId);
+      setOwner(response);
+    };
     fetchComments();
+    fetchOwner();
   }, []);
 
   const handlePostPress = () => {
@@ -32,6 +38,7 @@ export function Post({ post, pressable, renderComments }: PostProps) {
   return (
     <Pressable onPress={handlePostPress}>
       <View style={[styles.container, { marginBottom: 20 }]}>
+        <MonoText style={styles.desc}>Author: {owner?.name}</MonoText>
         <MonoText style={styles.title}>{post.title}</MonoText>
         <MonoText style={styles.desc}>{post.body}</MonoText>
         <MonoText>{comments.length} comments</MonoText>
