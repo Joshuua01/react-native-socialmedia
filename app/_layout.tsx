@@ -1,7 +1,7 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Redirect, Stack } from "expo-router";
+import { Redirect, Stack, router, useLocalSearchParams } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
@@ -47,13 +47,35 @@ export default function RootLayout() {
   );
 }
 
+function HeaderRightButton() {
+  const { id } = useLocalSearchParams();
+
+  return (
+    <Pressable
+      onPress={() => {
+        router.push(`posts/${id}/comments/create`);
+      }}
+    >
+      <FontAwesome name="plus" size={24} color="white" />
+    </Pressable>
+  );
+}
+
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="posts/[id]/index" options={{ headerShown: true, title: "Post", headerBackTitle: "Feed" }} />
+        <Stack.Screen
+          name="posts/[id]/index"
+          options={{
+            headerShown: true,
+            title: "Post",
+            headerBackTitle: "Feed",
+            headerRight: () => <HeaderRightButton />,
+          }}
+        />
         <Stack.Screen
           name="albums/[id]/index"
           options={{
@@ -68,6 +90,14 @@ function RootLayoutNav() {
             headerShown: true,
             title: "Add Post",
             headerBackTitle: "Posts",
+          }}
+        />
+        <Stack.Screen
+          name="posts/[id]/comments/create/index"
+          options={{
+            headerShown: true,
+            title: "Add Comment",
+            headerBackTitle: "Post",
           }}
         />
       </Stack>

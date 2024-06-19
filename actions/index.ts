@@ -50,6 +50,18 @@ export const getCommentsByPostId = async (postId: number) => {
   return data as IComment[];
 };
 
+export const createComment = async (comment: IComment) => {
+  const response = await fetch(`${api_url}/comments`, {
+    method: "POST",
+    body: JSON.stringify(comment),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  });
+  const data = await response.json();
+  return data as IComment;
+};
+
 //Album
 
 export const getAlbums = async () => {
