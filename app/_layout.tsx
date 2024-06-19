@@ -10,6 +10,7 @@ import { useColorScheme } from "@/components/useColorScheme";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import SignInScreen from "./(auth)/sign-in";
+import { Button, Pressable } from "react-native";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -55,7 +56,19 @@ function RootLayoutNav() {
         <Stack.Screen name="posts/[id]/index" options={{ headerShown: true, title: "Post", headerBackTitle: "Feed" }} />
         <Stack.Screen
           name="albums/[id]/index"
-          options={{ headerShown: true, title: "Pictures", headerBackTitle: "Albums" }}
+          options={{
+            headerShown: true,
+            title: "Pictures",
+            headerBackTitle: "Albums",
+          }}
+        />
+        <Stack.Screen
+          name="posts/create/index"
+          options={{
+            headerShown: true,
+            title: "Add Post",
+            headerBackTitle: "Posts",
+          }}
         />
       </Stack>
     </ThemeProvider>

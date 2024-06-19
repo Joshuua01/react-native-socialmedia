@@ -1,6 +1,6 @@
 import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Redirect, Tabs } from "expo-router";
+import { Redirect, Tabs, router } from "expo-router";
 
 import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/components/useColorScheme";
@@ -32,6 +32,17 @@ export default function TabLayout() {
         options={{
           title: "Feed",
           tabBarIcon: ({ color }) => <TabBarIcon name="rss" color={color} />,
+          headerRight: () => (
+            <FontAwesome
+              name="plus"
+              size={24}
+              color={"white"}
+              style={{ marginRight: 10 }}
+              onPress={() => {
+                router.push("/posts/create");
+              }}
+            />
+          ),
         }}
       />
       <Tabs.Screen
@@ -39,6 +50,17 @@ export default function TabLayout() {
         options={{
           title: "Albums",
           tabBarIcon: ({ color }) => <TabBarIcon name="image" color={color} />,
+          headerRight: () => (
+            <FontAwesome
+              name="plus"
+              size={24}
+              color={"white"}
+              style={{ marginRight: 10 }}
+              onPress={() => {
+                router.push("/albums/create");
+              }}
+            />
+          ),
         }}
       />
       <Tabs.Screen
@@ -46,6 +68,17 @@ export default function TabLayout() {
         options={{
           title: "Todos",
           tabBarIcon: ({ color }) => <TabBarIcon name="list-ol" color={color} />,
+          headerRight: () => (
+            <FontAwesome
+              name="plus"
+              size={24}
+              color={"white"}
+              style={{ marginRight: 10 }}
+              onPress={() => {
+                router.push("/todos/create");
+              }}
+            />
+          ),
         }}
       />
       <Tabs.Screen

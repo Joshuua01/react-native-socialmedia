@@ -2,6 +2,8 @@ import { IPost, IUser, IComment, IAlbum, IPicture } from "@/models";
 
 const api_url = "https://jsonplaceholder.typicode.com";
 
+//User
+
 export const getUsers = async () => {
   const response = await fetch(`${api_url}/users`);
   const data = await response.json();
@@ -13,6 +15,8 @@ export const getUserById = async (userId: number) => {
   const data = await response.json();
   return data as IUser;
 };
+
+//Post
 
 export const getPosts = async () => {
   const response = await fetch(`${api_url}/posts`);
@@ -26,11 +30,27 @@ export const getPostById = async (postId: number) => {
   return data as IPost;
 };
 
+export const createPost = async (post: IPost) => {
+  const response = await fetch(`${api_url}/posts`, {
+    method: "POST",
+    body: JSON.stringify(post),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  });
+  const data = await response.json();
+  return data as IPost;
+};
+
+//Comment
+
 export const getCommentsByPostId = async (postId: number) => {
   const response = await fetch(`${api_url}/posts/${postId}/comments`);
   const data = await response.json();
   return data as IComment[];
 };
+
+//Album
 
 export const getAlbums = async () => {
   const response = await fetch(`${api_url}/albums`);
@@ -43,6 +63,8 @@ export const getAlbumById = async (albumId: number) => {
   const data = await response.json();
   return data as IAlbum;
 };
+
+//Picture
 
 export const getPicturesByAlbumId = async (albumId: number) => {
   const response = await fetch(`${api_url}/albums/${albumId}/photos`);
