@@ -6,17 +6,17 @@ export interface IUser {
 }
 
 export interface IPost {
-  userId: number;
+  userId?: number;
   id?: number;
   title: string;
   body: string;
 }
 
 export interface IComment {
-  postId: number;
+  postId?: number;
   id?: number;
   name: string;
-  email: string;
+  email?: string;
   body: string;
 }
 

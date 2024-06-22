@@ -11,6 +11,7 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import SignInScreen from "./(auth)/sign-in";
 import { Button, Pressable } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -39,11 +40,13 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaProvider>
-      <AuthProvider>
-        <RootLayoutNav />
-      </AuthProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView>
+      <SafeAreaProvider>
+        <AuthProvider>
+          <RootLayoutNav />
+        </AuthProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
 
@@ -97,6 +100,22 @@ function RootLayoutNav() {
           options={{
             headerShown: true,
             title: "Add Comment",
+            headerBackTitle: "Post",
+          }}
+        />
+        <Stack.Screen
+          name="posts/[id]/edit/index"
+          options={{
+            headerShown: true,
+            title: "Edit Post",
+            headerBackTitle: "Post",
+          }}
+        />
+        <Stack.Screen
+          name="posts/[id]/comments/[commentId]/edit/index"
+          options={{
+            headerShown: true,
+            title: "Edit Comment",
             headerBackTitle: "Post",
           }}
         />
