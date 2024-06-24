@@ -1,11 +1,11 @@
-import { Button, Pressable, StyleSheet, TextInput } from "react-native";
-import { Text, View } from "@/components/Themed";
-import { MonoText } from "@/components/StyledText";
-import { useEffect, useState } from "react";
 import { getUsers } from "@/actions";
-import { IUser } from "@/models";
+import { MonoText } from "@/components/StyledText";
+import { View } from "@/components/Themed";
 import { useAuth } from "@/contexts/AuthContext";
+import { IUser } from "@/models";
 import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import { Pressable, StyleSheet, TextInput } from "react-native";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState<string>("");

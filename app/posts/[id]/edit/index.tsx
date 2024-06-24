@@ -1,11 +1,10 @@
-import { createPost, editPost, getPostById } from "@/actions";
-import { Post } from "@/components/Post";
+import { editPost, getPostById } from "@/actions";
 import { MonoText } from "@/components/StyledText";
 import { useAuth } from "@/contexts/AuthContext";
 import { IPost } from "@/models";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { View, ScrollView, StyleSheet, TextInput, Pressable } from "react-native";
+import { Pressable, StyleSheet, TextInput, View } from "react-native";
 
 const PostEditPage = () => {
   const [title, setTitle] = useState<string>("");

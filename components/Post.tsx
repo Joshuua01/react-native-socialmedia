@@ -1,13 +1,13 @@
-import { Pressable, StyleSheet } from "react-native";
-import { IComment, IPost, IUser } from "@/models";
-import { View } from "./Themed";
-import { MonoText } from "./StyledText";
-import { useEffect, useRef, useState } from "react";
 import { deletePost, getCommentsByPostId, getUserById } from "@/actions";
-import { router } from "expo-router";
-import { GestureHandlerRootView, Swipeable } from "react-native-gesture-handler";
+import { IComment, IPost, IUser } from "@/models";
 import { FontAwesome } from "@expo/vector-icons";
+import { router } from "expo-router";
+import { useEffect, useRef, useState } from "react";
+import { Pressable, StyleSheet } from "react-native";
+import { Swipeable } from "react-native-gesture-handler";
 import Comments from "./Comments";
+import { MonoText } from "./StyledText";
+import { View } from "./Themed";
 
 interface PostProps {
   post: IPost;

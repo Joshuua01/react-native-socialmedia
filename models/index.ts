@@ -21,14 +21,14 @@ export interface IComment {
 }
 
 export interface IAlbum {
-  userId: number;
+  userId?: number;
   id: number;
   title: string;
 }
 
 export interface IPicture {
   albumId: number;
-  id: number;
+  id?: number;
   title: string;
   url: string;
   thumbnailUrl: string;

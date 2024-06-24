@@ -1,17 +1,16 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Redirect, Stack, router, useLocalSearchParams } from "expo-router";
+import { Stack, router, useLocalSearchParams } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/components/useColorScheme";
-import { AuthProvider, useAuth } from "@/contexts/AuthContext";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import SignInScreen from "./(auth)/sign-in";
-import { Button, Pressable } from "react-native";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { Pressable } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -50,13 +49,13 @@ export default function RootLayout() {
   );
 }
 
-function HeaderRightButton() {
+function HeaderRightButton(start: string, end: string) {
   const { id } = useLocalSearchParams();
-
+  const link = start + id + end;
   return (
     <Pressable
       onPress={() => {
-        router.push(`posts/${id}/comments/create`);
+        router.push(link);
       }}
     >
       <FontAwesome name="plus" size={24} color="white" />
@@ -76,7 +75,7 @@ function RootLayoutNav() {
             headerShown: true,
             title: "Post",
             headerBackTitle: "Feed",
-            headerRight: () => <HeaderRightButton />,
+            headerRight: () => HeaderRightButton("posts/", "/create/"),
           }}
         />
         <Stack.Screen
@@ -85,6 +84,7 @@ function RootLayoutNav() {
             headerShown: true,
             title: "Pictures",
             headerBackTitle: "Albums",
+            headerRight: () => HeaderRightButton("albums/", "/pictures/create/"),
           }}
         />
         <Stack.Screen
@@ -117,6 +117,30 @@ function RootLayoutNav() {
             headerShown: true,
             title: "Edit Comment",
             headerBackTitle: "Post",
+          }}
+        />
+        <Stack.Screen
+          name="albums/create/index"
+          options={{
+            headerShown: true,
+            title: "Add Album",
+            headerBackTitle: "Albums",
+          }}
+        />
+        <Stack.Screen
+          name="albums/[id]/edit/index"
+          options={{
+            headerShown: true,
+            title: "Edit Album",
+            headerBackTitle: "Album",
+          }}
+        />
+        <Stack.Screen
+          name="albums/[id]/pictures/create/index"
+          options={{
+            headerShown: true,
+            title: "Add Picture",
+            headerBackTitle: "Album",
           }}
         />
       </Stack>

@@ -1,4 +1,4 @@
-import { IPost, IUser, IComment, IAlbum, IPicture } from "@/models";
+import { IAlbum, IComment, IPicture, IPost, IUser } from "@/models";
 
 const api_url = "https://jsonplaceholder.typicode.com";
 
@@ -206,6 +206,61 @@ export const getAlbumById = (albumId: number) => {
     });
 };
 
+export const createAlbum = (album: IAlbum) => {
+  return fetch(`${api_url}/albums`, {
+    method: "POST",
+    body: JSON.stringify(album),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => data as IAlbum)
+    .catch((error) => {
+      console.log("Failed to create album", error);
+      throw error;
+    });
+};
+
+export const deleteAlbum = (albumId: number) => {
+  return fetch(`${api_url}/albums/${albumId}`, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        console.log("Failed to delete album");
+        throw new Error("Failed to delete album");
+      }
+      return response.ok;
+    })
+    .catch((error) => {
+      console.log("Failed to delete album", error);
+      throw error;
+    });
+};
+
+export const editAlbum = (album: IAlbum) => {
+  return fetch(`${api_url}/albums/${album.id}`, {
+    method: "PUT",
+    body: JSON.stringify(album),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        console.log("Failed to edit album");
+        throw new Error("Failed to edit album");
+      }
+      return response.json();
+    })
+    .then((data) => data as IAlbum)
+    .catch((error) => {
+      console.log("Failed to edit album", error);
+      throw error;
+    });
+};
+
 // Picture
 
 export const getPicturesByAlbumId = (albumId: number) => {
@@ -214,6 +269,22 @@ export const getPicturesByAlbumId = (albumId: number) => {
     .then((data) => data as IPicture[])
     .catch((error) => {
       console.log("Failed to get pictures by album ID", error);
+      throw error;
+    });
+};
+
+export const addPictureToAlbum = (picture: IPicture) => {
+  return fetch(`${api_url}/photos`, {
+    method: "POST",
+    body: JSON.stringify(picture),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => data as IPicture)
+    .catch((error) => {
+      console.log("Failed to add picture to album", error);
       throw error;
     });
 };

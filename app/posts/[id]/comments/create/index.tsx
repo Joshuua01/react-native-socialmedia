@@ -1,11 +1,10 @@
 import { createComment } from "@/actions";
-import { Post } from "@/components/Post";
 import { MonoText } from "@/components/StyledText";
 import { useAuth } from "@/contexts/AuthContext";
-import { IComment, IPost } from "@/models";
+import { IComment } from "@/models";
 import { router, useLocalSearchParams } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { View, ScrollView, StyleSheet, TextInput, Pressable } from "react-native";
+import React, { useState } from "react";
+import { Pressable, StyleSheet, TextInput, View } from "react-native";
 
 const PostCommentScreen = () => {
   const [body, setBody] = useState<string>("");

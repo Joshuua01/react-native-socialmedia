@@ -3,7 +3,7 @@ import { Post } from "@/components/Post";
 import { IPost } from "@/models";
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 const PostPage = () => {
   const id = useLocalSearchParams().id;

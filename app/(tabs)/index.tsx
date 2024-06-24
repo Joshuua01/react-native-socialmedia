@@ -1,10 +1,10 @@
 import { ScrollView, StyleSheet } from "react-native";
 
-import { View } from "@/components/Themed";
-import { useEffect, useState } from "react";
 import { getPosts } from "@/actions";
-import { IPost } from "@/models";
 import { Post } from "@/components/Post";
+import { View } from "@/components/Themed";
+import { IPost } from "@/models";
+import { useEffect, useState } from "react";
 
 export default function FeedScreen() {
   const [posts, setPosts] = useState<IPost[]>([]);

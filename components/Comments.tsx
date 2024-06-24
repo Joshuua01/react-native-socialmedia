@@ -1,12 +1,11 @@
-import { Pressable, StyleSheet } from "react-native";
-import { IComment } from "@/models";
-import React, { useRef } from "react";
-import { View, Text } from "react-native";
-import { MonoText } from "./StyledText";
-import { GestureHandlerRootView, Swipeable } from "react-native-gesture-handler";
-import { FontAwesome } from "@expo/vector-icons";
 import { deleteComment } from "@/actions";
+import { IComment } from "@/models";
+import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
+import React from "react";
+import { Pressable, StyleSheet, View } from "react-native";
+import { Swipeable } from "react-native-gesture-handler";
+import { MonoText } from "./StyledText";
 
 interface CommentsProps {
   comments: IComment[];

@@ -1,11 +1,10 @@
-import { createPost, getPostById } from "@/actions";
-import { Post } from "@/components/Post";
+import { createPost } from "@/actions";
 import { MonoText } from "@/components/StyledText";
 import { useAuth } from "@/contexts/AuthContext";
 import { IPost } from "@/models";
-import { router, useLocalSearchParams } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { View, ScrollView, StyleSheet, TextInput, Pressable } from "react-native";
+import { router } from "expo-router";
+import React, { useState } from "react";
+import { Pressable, StyleSheet, TextInput, View } from "react-native";
 
 const PostAddPage = () => {
   const [title, setTitle] = useState<string>("");

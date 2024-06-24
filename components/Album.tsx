@@ -1,10 +1,12 @@
-import { Pressable, StyleSheet, Image } from "react-native";
+import { deleteAlbum, getPicturesByAlbumId, getUserById } from "@/actions";
 import { IAlbum, IPicture, IUser } from "@/models";
-import { View } from "./Themed";
-import { MonoText } from "./StyledText";
-import { useEffect, useState } from "react";
-import { getPicturesByAlbumId, getUserById } from "@/actions";
+import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { useEffect, useRef, useState } from "react";
+import { Image, Pressable, StyleSheet } from "react-native";
+import { Swipeable } from "react-native-gesture-handler";
+import { MonoText } from "./StyledText";
+import { View } from "./Themed";
 
 interface AlbumProps {
   album: IAlbum;
@@ -15,6 +17,7 @@ interface AlbumProps {
 export function Album({ album, renderPictures, pressable }: AlbumProps) {
   const [pictures, setPictures] = useState<IPicture[]>([]);
   const [owner, setOwner] = useState<IUser>();
+  const swipeableRef = useRef(null);
 
   useEffect(() => {
     const fetchPictures = async () => {
@@ -35,22 +38,88 @@ export function Album({ album, renderPictures, pressable }: AlbumProps) {
     }
   };
 
-  return (
-    <Pressable onPress={handleAlbumPress}>
-      <View style={[styles.container, { marginBottom: 20 }]}>
-        <MonoText style={styles.desc}>Owner: {owner?.name}</MonoText>
-        <MonoText style={styles.title}>{album.title}</MonoText>
-        <MonoText>{pictures.length} pictures</MonoText>
+  const handleAlbumDelete = async () => {
+    await deleteAlbum(album.id);
+    alert("Album deleted");
+    swipeableRef.current.close();
+  };
 
-        {renderPictures &&
-          pictures.map((picture) => (
-            <View key={picture.id} style={styles.commentContainer}>
-              <View style={styles.separator} />
-              <Image source={{ uri: picture.url }} style={{ width: 300, height: 300 }} />
+  const handleAlbumEdit = () => {
+    router.push(`/albums/${album.id}/edit`);
+    swipeableRef.current.close();
+  };
+
+  return (
+    <View>
+      {!renderPictures && (
+        <Swipeable
+          renderRightActions={() => (
+            <Pressable
+              style={{
+                width: 120,
+                backgroundColor: "red",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={handleAlbumDelete}
+            >
+              <FontAwesome name="trash" size={40} color={"white"} />
+            </Pressable>
+          )}
+          renderLeftActions={() => (
+            <Pressable
+              style={{
+                width: 120,
+                backgroundColor: "blue",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={handleAlbumEdit}
+            >
+              <FontAwesome name="pencil" size={40} color={"white"} />
+            </Pressable>
+          )}
+          ref={swipeableRef}
+        >
+          <Pressable onPress={handleAlbumPress}>
+            <View style={styles.container}>
+              <MonoText style={styles.desc}>Owner: {owner?.name}</MonoText>
+              <MonoText style={styles.title}>{album.title}</MonoText>
+              <MonoText>{pictures.length} pictures</MonoText>
+
+              {renderPictures &&
+                pictures.map((picture) => (
+                  <View>
+                    <View style={styles.separator} />
+                    <View key={picture.id} style={styles.commentContainer}>
+                      <Image source={{ uri: picture.url }} style={{ width: 300, height: 300 }} />
+                    </View>
+                  </View>
+                ))}
             </View>
-          ))}
-      </View>
-    </Pressable>
+          </Pressable>
+        </Swipeable>
+      )}
+      {renderPictures && (
+        <View style={styles.container}>
+          <MonoText style={styles.desc}>Owner: {owner?.name}</MonoText>
+          <MonoText style={styles.title}>{album.title}</MonoText>
+          <MonoText>{pictures.length} pictures</MonoText>
+
+          {renderPictures &&
+            pictures.map((picture) => (
+              <View key={picture.id}>
+                <View style={styles.separator} />
+                <View style={styles.commentContainer}>
+                  <Image source={{ uri: picture.url }} style={{ width: 300, height: 300 }} />
+                </View>
+              </View>
+            ))}
+        </View>
+      )}
+    </View>
   );
 }
 
@@ -63,7 +132,7 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     justifyContent: "flex-start",
-    backgroundColor: "#373A40",
+    backgroundColor: "#000",
     padding: 20,
     gap: 15,
   },
@@ -76,7 +145,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   commentContainer: {
-    backgroundColor: "#373A40",
+    backgroundColor: "#000",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 10,
     margin: 5,
     gap: 10,

@@ -1,43 +1,33 @@
-import { editComment, getCommentById } from "@/actions";
+import { createAlbum } from "@/actions";
 import { MonoText } from "@/components/StyledText";
 import { useAuth } from "@/contexts/AuthContext";
-import { IComment } from "@/models";
+import { IAlbum } from "@/models";
 import { router, useLocalSearchParams } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
 
-const CommentEditPage = () => {
-  const [name, setName] = useState<string>("");
-  const [body, setBody] = useState<string>("");
-  const id = useLocalSearchParams().commentId;
+const AlbumCreateScreen = () => {
+  const [title, setTitle] = useState<string>("");
   const { user } = useAuth();
-
-  useEffect(() => {
-    const fetchComment = async (id: number) => {
-      const response = await getCommentById(id);
-      setName(response.name);
-      setBody(response.body);
-    };
-    fetchComment(Number(id));
-  }, []);
+  const { id } = useLocalSearchParams();
 
   const handleSubmit = async () => {
     if (!user) {
       console.log("User not found");
       return;
     }
-    if (name && body) {
-      const comment: IComment = {
+
+    if (title) {
+      const album: IAlbum = {
         id: Number(id),
-        name,
-        body,
+        title,
       };
       try {
-        const data = await editComment(comment);
-        console.log("Post Edited", data);
-        router.back();
+        const data = await createAlbum(album);
+        console.log("Album created", data);
+        router.replace(`/albums`);
       } catch (error) {
-        console.log("Failed to edit comment", error);
+        console.log("Failed to create album", error);
       }
     }
   };
@@ -45,28 +35,20 @@ const CommentEditPage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <MonoText style={styles.title}>Edit Post</MonoText>
+        <MonoText style={styles.title}>Add comment</MonoText>
         <MonoText style={styles.text}>Enter the values</MonoText>
       </View>
       <View style={styles.separator} />
       <TextInput
         style={styles.input}
-        placeholder="Title"
-        onChangeText={(e) => {
-          setName(e);
-        }}
-        value={name}
-      />
-      <TextInput
-        style={styles.input}
         placeholder="Body"
         onChangeText={(e) => {
-          setBody(e);
+          setTitle(e);
         }}
-        value={body}
+        value={title}
       />
       <Pressable style={styles.button} onPress={handleSubmit}>
-        <MonoText style={styles.buttonText}>Save</MonoText>
+        <MonoText style={styles.buttonText}>Create</MonoText>
       </Pressable>
     </View>
   );
@@ -123,5 +105,4 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
 });
-
-export default CommentEditPage;
+export default AlbumCreateScreen;

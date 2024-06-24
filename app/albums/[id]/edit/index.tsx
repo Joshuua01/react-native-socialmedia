@@ -1,22 +1,20 @@
-import { editComment, getCommentById } from "@/actions";
+import { editAlbum, getAlbumById } from "@/actions";
 import { MonoText } from "@/components/StyledText";
 import { useAuth } from "@/contexts/AuthContext";
-import { IComment } from "@/models";
+import { IAlbum } from "@/models";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
 
-const CommentEditPage = () => {
-  const [name, setName] = useState<string>("");
-  const [body, setBody] = useState<string>("");
+const AlbumEditPage = () => {
+  const [title, setTitle] = useState<string>("");
   const id = useLocalSearchParams().commentId;
   const { user } = useAuth();
 
   useEffect(() => {
     const fetchComment = async (id: number) => {
-      const response = await getCommentById(id);
-      setName(response.name);
-      setBody(response.body);
+      const response = await getAlbumById(id);
+      setTitle(response.title);
     };
     fetchComment(Number(id));
   }, []);
@@ -26,18 +24,17 @@ const CommentEditPage = () => {
       console.log("User not found");
       return;
     }
-    if (name && body) {
-      const comment: IComment = {
+    if (title) {
+      const comment: IAlbum = {
         id: Number(id),
-        name,
-        body,
+        title,
       };
       try {
-        const data = await editComment(comment);
-        console.log("Post Edited", data);
+        const data = await editAlbum(comment);
+        console.log("Album Edited", data);
         router.back();
       } catch (error) {
-        console.log("Failed to edit comment", error);
+        console.log("Failed to edit album", error);
       }
     }
   };
@@ -53,18 +50,11 @@ const CommentEditPage = () => {
         style={styles.input}
         placeholder="Title"
         onChangeText={(e) => {
-          setName(e);
+          setTitle(e);
         }}
-        value={name}
+        value={title}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Body"
-        onChangeText={(e) => {
-          setBody(e);
-        }}
-        value={body}
-      />
+
       <Pressable style={styles.button} onPress={handleSubmit}>
         <MonoText style={styles.buttonText}>Save</MonoText>
       </Pressable>
@@ -124,4 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CommentEditPage;
+export default AlbumEditPage;

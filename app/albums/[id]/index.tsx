@@ -1,9 +1,9 @@
-import { getAlbumById, getPostById } from "@/actions";
+import { getAlbumById } from "@/actions";
 import { Album } from "@/components/Album";
 import { IAlbum } from "@/models";
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 const AlbumPage = () => {
   const id = useLocalSearchParams().id;
