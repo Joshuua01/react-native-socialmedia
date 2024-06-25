@@ -26,8 +26,7 @@ const PostCommentScreen = () => {
       };
       try {
         const data = await createComment(comment);
-        console.log("Comment created", data);
-        router.replace(`/posts/${id}`);
+        router.back();
       } catch (error) {
         console.log("Failed to create post", error);
       }

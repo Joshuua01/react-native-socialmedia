@@ -24,8 +24,7 @@ const AlbumCreateScreen = () => {
       };
       try {
         const data = await createAlbum(album);
-        console.log("Album created", data);
-        router.replace(`/albums`);
+        router.back();
       } catch (error) {
         console.log("Failed to create album", error);
       }
@@ -35,7 +34,7 @@ const AlbumCreateScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <MonoText style={styles.title}>Add comment</MonoText>
+        <MonoText style={styles.title}>Add album</MonoText>
         <MonoText style={styles.text}>Enter the values</MonoText>
       </View>
       <View style={styles.separator} />

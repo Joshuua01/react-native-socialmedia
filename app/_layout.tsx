@@ -75,7 +75,7 @@ function RootLayoutNav() {
             headerShown: true,
             title: "Post",
             headerBackTitle: "Feed",
-            headerRight: () => HeaderRightButton("posts/", "/create/"),
+            headerRight: () => HeaderRightButton("posts/", "/comments/create"),
           }}
         />
         <Stack.Screen
@@ -141,6 +141,22 @@ function RootLayoutNav() {
             headerShown: true,
             title: "Add Picture",
             headerBackTitle: "Album",
+          }}
+        />
+        <Stack.Screen
+          name="todos/[id]/edit/index"
+          options={{
+            headerShown: true,
+            title: "Edit Todo",
+            headerBackTitle: "Todos",
+          }}
+        />
+        <Stack.Screen
+          name="todos/create/index"
+          options={{
+            headerShown: true,
+            title: "Add Todo",
+            headerBackTitle: "Todos",
           }}
         />
       </Stack>

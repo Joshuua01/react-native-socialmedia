@@ -1,24 +1,22 @@
-import { editPost, getPostById } from "@/actions";
+import { editTodo, getTodoById } from "@/actions";
 import { MonoText } from "@/components/StyledText";
 import { useAuth } from "@/contexts/AuthContext";
-import { IPost } from "@/models";
+import { ITodo } from "@/models";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
 
-const PostEditPage = () => {
+const TodoEditPage = () => {
   const [title, setTitle] = useState<string>("");
-  const [body, setBody] = useState<string>("");
   const id = useLocalSearchParams().id;
   const { user } = useAuth();
 
   useEffect(() => {
-    const fetchPost = async (id: number) => {
-      const response = await getPostById(id);
+    const fetchTodo = async (id: number) => {
+      const response = await getTodoById(id);
       setTitle(response.title);
-      setBody(response.body);
     };
-    fetchPost(Number(id));
+    fetchTodo(Number(id));
   }, []);
 
   const handleSubmit = async () => {
@@ -26,14 +24,13 @@ const PostEditPage = () => {
       console.log("User not found");
       return;
     }
-    if (title && body) {
-      const post: IPost = {
+    if (title) {
+      const todo: ITodo = {
         id: Number(id),
         title,
-        body,
       };
       try {
-        const data = await editPost(post);
+        const data = await editTodo(todo);
         router.back();
       } catch (error) {
         console.log("Failed to edit post", error);
@@ -44,7 +41,7 @@ const PostEditPage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <MonoText style={styles.title}>Edit Post</MonoText>
+        <MonoText style={styles.title}>Edit Todo</MonoText>
         <MonoText style={styles.text}>Enter the values</MonoText>
       </View>
       <View style={styles.separator} />
@@ -55,14 +52,6 @@ const PostEditPage = () => {
           setTitle(e);
         }}
         value={title}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Body"
-        onChangeText={(e) => {
-          setBody(e);
-        }}
-        value={body}
       />
       <Pressable style={styles.button} onPress={handleSubmit}>
         <MonoText style={styles.buttonText}>Save</MonoText>
@@ -123,4 +112,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostEditPage;
+export default TodoEditPage;

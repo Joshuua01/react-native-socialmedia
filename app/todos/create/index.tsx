@@ -1,42 +1,31 @@
-import { editPost, getPostById } from "@/actions";
+import { createTodo } from "@/actions";
 import { MonoText } from "@/components/StyledText";
 import { useAuth } from "@/contexts/AuthContext";
-import { IPost } from "@/models";
-import { router, useLocalSearchParams } from "expo-router";
-import React, { useEffect, useState } from "react";
+import { ITodo } from "@/models";
+import { router } from "expo-router";
+import React, { useState } from "react";
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
 
-const PostEditPage = () => {
+const TodoAddPage = () => {
   const [title, setTitle] = useState<string>("");
-  const [body, setBody] = useState<string>("");
-  const id = useLocalSearchParams().id;
   const { user } = useAuth();
-
-  useEffect(() => {
-    const fetchPost = async (id: number) => {
-      const response = await getPostById(id);
-      setTitle(response.title);
-      setBody(response.body);
-    };
-    fetchPost(Number(id));
-  }, []);
 
   const handleSubmit = async () => {
     if (!user) {
       console.log("User not found");
       return;
     }
-    if (title && body) {
-      const post: IPost = {
-        id: Number(id),
+    if (title) {
+      const todo: ITodo = {
+        completed: false,
         title,
-        body,
+        userId: user.id,
       };
       try {
-        const data = await editPost(post);
+        const data = await createTodo(todo);
         router.back();
       } catch (error) {
-        console.log("Failed to edit post", error);
+        console.log("Failed to create todo", error);
       }
     }
   };
@@ -44,7 +33,7 @@ const PostEditPage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <MonoText style={styles.title}>Edit Post</MonoText>
+        <MonoText style={styles.title}>Add Todo</MonoText>
         <MonoText style={styles.text}>Enter the values</MonoText>
       </View>
       <View style={styles.separator} />
@@ -56,16 +45,8 @@ const PostEditPage = () => {
         }}
         value={title}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Body"
-        onChangeText={(e) => {
-          setBody(e);
-        }}
-        value={body}
-      />
       <Pressable style={styles.button} onPress={handleSubmit}>
-        <MonoText style={styles.buttonText}>Save</MonoText>
+        <MonoText style={styles.buttonText}>Create</MonoText>
       </Pressable>
     </View>
   );
@@ -123,4 +104,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostEditPage;
+export default TodoAddPage;

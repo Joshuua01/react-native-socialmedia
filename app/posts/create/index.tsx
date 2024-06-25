@@ -24,8 +24,7 @@ const PostAddPage = () => {
       };
       try {
         const data = await createPost(post);
-        console.log("Post created", data);
-        router.replace("/");
+        router.back();
       } catch (error) {
         console.log("Failed to create post", error);
       }

@@ -34,9 +34,9 @@ export interface IPicture {
   thumbnailUrl: string;
 }
 
-export interface Todo {
-  userId: number;
-  id: number;
+export interface ITodo {
+  userId?: number;
+  id?: number;
   title: string;
-  completed: boolean;
+  completed?: boolean;
 }

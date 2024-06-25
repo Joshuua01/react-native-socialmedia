@@ -1,4 +1,4 @@
-import { IAlbum, IComment, IPicture, IPost, IUser } from "@/models";
+import { IAlbum, IComment, IPicture, IPost, ITodo, IUser } from "@/models";
 
 const api_url = "https://jsonplaceholder.typicode.com";
 
@@ -285,6 +285,100 @@ export const addPictureToAlbum = (picture: IPicture) => {
     .then((data) => data as IPicture)
     .catch((error) => {
       console.log("Failed to add picture to album", error);
+      throw error;
+    });
+};
+
+export const deletePicture = (pictureId: number) => {
+  return fetch(`${api_url}/photos/${pictureId}`, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        console.log("Failed to delete picture");
+        throw new Error("Failed to delete picture");
+      }
+      return response.ok;
+    })
+    .catch((error) => {
+      console.log("Failed to delete picture", error);
+      throw error;
+    });
+};
+
+// Todo
+
+export const getTodosByUserId = (userId: number) => {
+  return fetch(`${api_url}/users/${userId}/todos`)
+    .then((response) => response.json())
+    .then((data) => data as ITodo[])
+    .catch((error) => {
+      console.log("Failed to get todos by user ID", error);
+      throw error;
+    });
+};
+
+export const getTodoById = (todoId: number) => {
+  return fetch(`${api_url}/todos/${todoId}`)
+    .then((response) => response.json())
+    .then((data) => data as ITodo)
+    .catch((error) => {
+      console.log("Failed to get todo by ID", error);
+      throw error;
+    });
+};
+
+export const createTodo = (todo: ITodo) => {
+  return fetch(`${api_url}/todos`, {
+    method: "POST",
+    body: JSON.stringify(todo),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => data as ITodo)
+    .catch((error) => {
+      console.log("Failed to create todo", error);
+      throw error;
+    });
+};
+
+export const editTodo = (todo: ITodo) => {
+  return fetch(`${api_url}/todos/${todo.id}`, {
+    method: "PUT",
+    body: JSON.stringify(todo),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        console.log("Failed to edit todo");
+        throw new Error("Failed to edit todo");
+      }
+      return response.json();
+    })
+    .then((data) => data as ITodo)
+    .catch((error) => {
+      console.log("Failed to edit todo", error);
+      throw error;
+    });
+};
+
+export const deleteTodo = (todoId: number) => {
+  return fetch(`${api_url}/todos/${todoId}`, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        console.log("Failed to delete todo");
+        throw new Error("Failed to delete todo");
+      }
+      return response.ok;
+    })
+    .catch((error) => {
+      console.log("Failed to delete todo", error);
       throw error;
     });
 };

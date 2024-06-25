@@ -34,7 +34,6 @@ const CommentEditPage = () => {
       };
       try {
         const data = await editComment(comment);
-        console.log("Post Edited", data);
         router.back();
       } catch (error) {
         console.log("Failed to edit comment", error);
@@ -45,7 +44,7 @@ const CommentEditPage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <MonoText style={styles.title}>Edit Post</MonoText>
+        <MonoText style={styles.title}>Edit Comment</MonoText>
         <MonoText style={styles.text}>Enter the values</MonoText>
       </View>
       <View style={styles.separator} />

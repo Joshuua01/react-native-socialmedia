@@ -12,11 +12,11 @@ const AlbumEditPage = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    const fetchComment = async (id: number) => {
+    const fetchAlbum = async (id: number) => {
       const response = await getAlbumById(id);
       setTitle(response.title);
     };
-    fetchComment(Number(id));
+    fetchAlbum(Number(id));
   }, []);
 
   const handleSubmit = async () => {
@@ -42,7 +42,7 @@ const AlbumEditPage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <MonoText style={styles.title}>Edit Post</MonoText>
+        <MonoText style={styles.title}>Edit Album</MonoText>
         <MonoText style={styles.text}>Enter the values</MonoText>
       </View>
       <View style={styles.separator} />

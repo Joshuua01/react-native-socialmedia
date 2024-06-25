@@ -1,4 +1,4 @@
-import { deleteAlbum, getPicturesByAlbumId, getUserById } from "@/actions";
+import { deleteAlbum, deletePicture, getPicturesByAlbumId, getUserById } from "@/actions";
 import { IAlbum, IPicture, IUser } from "@/models";
 import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -17,7 +17,8 @@ interface AlbumProps {
 export function Album({ album, renderPictures, pressable }: AlbumProps) {
   const [pictures, setPictures] = useState<IPicture[]>([]);
   const [owner, setOwner] = useState<IUser>();
-  const swipeableRef = useRef(null);
+  const albumSwipeableRef = useRef(null);
+  const refArr: Array<any> = [];
 
   useEffect(() => {
     const fetchPictures = async () => {
@@ -41,12 +42,18 @@ export function Album({ album, renderPictures, pressable }: AlbumProps) {
   const handleAlbumDelete = async () => {
     await deleteAlbum(album.id);
     alert("Album deleted");
-    swipeableRef.current.close();
+    albumSwipeableRef.current.close();
   };
 
   const handleAlbumEdit = () => {
     router.push(`/albums/${album.id}/edit`);
-    swipeableRef.current.close();
+    albumSwipeableRef.current.close();
+  };
+
+  const handlePictureDelete = async (id: number) => {
+    await deletePicture(id);
+    alert("Picture deleted");
+    refArr[id].close();
   };
 
   return (
@@ -81,7 +88,7 @@ export function Album({ album, renderPictures, pressable }: AlbumProps) {
               <FontAwesome name="pencil" size={40} color={"white"} />
             </Pressable>
           )}
-          ref={swipeableRef}
+          ref={albumSwipeableRef}
         >
           <Pressable onPress={handleAlbumPress}>
             <View style={styles.container}>
@@ -110,12 +117,31 @@ export function Album({ album, renderPictures, pressable }: AlbumProps) {
 
           {renderPictures &&
             pictures.map((picture) => (
-              <View key={picture.id}>
-                <View style={styles.separator} />
-                <View style={styles.commentContainer}>
-                  <Image source={{ uri: picture.url }} style={{ width: 300, height: 300 }} />
+              <Swipeable
+                key={picture.id}
+                ref={(ref) => (refArr[picture.id] = ref)}
+                renderRightActions={() => (
+                  <Pressable
+                    style={{
+                      width: 120,
+                      backgroundColor: "red",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                    onPress={() => handlePictureDelete(picture.id)}
+                  >
+                    <FontAwesome name="trash" size={40} color={"white"} />
+                  </Pressable>
+                )}
+              >
+                <View>
+                  <View style={styles.separator} />
+                  <View style={styles.commentContainer}>
+                    <Image source={{ uri: picture.url }} style={{ width: 300, height: 300 }} />
+                  </View>
                 </View>
-              </View>
+              </Swipeable>
             ))}
         </View>
       )}
