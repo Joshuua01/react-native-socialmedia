@@ -19,8 +19,6 @@ const SignInScreen = () => {
     if (email.length > 0) {
       const result = await login(email);
       if (result) {
-        // TODO: Error handling
-
         console.log("User logged in");
         router.replace("/");
       } else {

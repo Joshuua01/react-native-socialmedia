@@ -8,10 +8,11 @@ import { Pressable, StyleSheet, TextInput, View } from "react-native";
 
 const AlbumEditPage = () => {
   const [title, setTitle] = useState<string>("");
-  const id = useLocalSearchParams().commentId;
+  const id = useLocalSearchParams().id;
   const { user } = useAuth();
 
   useEffect(() => {
+    console.log("Fetching album", id);
     const fetchAlbum = async (id: number) => {
       const response = await getAlbumById(id);
       setTitle(response.title);
@@ -25,12 +26,13 @@ const AlbumEditPage = () => {
       return;
     }
     if (title) {
-      const comment: IAlbum = {
+      const album: IAlbum = {
         id: Number(id),
         title,
       };
       try {
-        const data = await editAlbum(comment);
+        console.log("Editing album", album);
+        const data = await editAlbum(album);
         console.log("Album Edited", data);
         router.back();
       } catch (error) {
